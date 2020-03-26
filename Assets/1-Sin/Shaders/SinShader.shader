@@ -90,9 +90,9 @@ Shader "Water/SinShader"
         float4 GenSinWave(float3 vertex){
             float4 h = float4(0,0,0,0);
             float4 waveh1 = 1/4.0 * GenSingleSinWave(vertex, Wave1);
-            float4 waveh2 = 1/4.0 * GenSingleSinWave(vertex, Wave1);
-            float4 waveh3 = 1/4.0 * GenSingleSinWave(vertex, Wave1);
-            float4 waveh4 = 1/4.0 * GenSingleSinWave(vertex, Wave1);
+            float4 waveh2 = 1/4.0 * GenSingleSinWave(vertex, Wave2);
+            float4 waveh3 = 1/4.0 * GenSingleSinWave(vertex, Wave3);
+            float4 waveh4 = 1/4.0 * GenSingleSinWave(vertex, Wave4);
             h = waveh1 + waveh2 + waveh3 + waveh4;
             return h;
         }
@@ -100,12 +100,12 @@ Shader "Water/SinShader"
         v2f vert(a2v v){
             v2f o;
 
-            // float4 wave = GenSinWave(v.vertex);
-            float4 wave;
-            wave.x = sin(v.vertex);
-            wave.yzw = (-cos(v.vertex), 0, 1);
+            float4 wave = GenSinWave(v.vertex);
+            // float4 wave;
+            // wave.x = sin(v.vertex.x);
+            // wave.yzw = float3(-cos(v.vertex.x), 1, 0);
             v.vertex.y = wave.x;
-            float3 normal = wave.yzw;
+            float3 normal = -wave.yzw;
             o.pos = UnityObjectToClipPos(v.vertex);
             o.uv = TRANSFORM_TEX(v.texcoord, _WaterTex);
             o.worldNormal = mul(normal, (float3x3)unity_WorldToObject);
@@ -119,6 +119,7 @@ Shader "Water/SinShader"
             fixed4 color = tex2D(_WaterTex, i.uv);
             fixed3 diffuse = _LightColor0.rgb * color.rgb * saturate(dot(worldNormal, worldLightDir));
             return fixed4(diffuse, 1);
+            // return color;
         }
         ENDCG
 

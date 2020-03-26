@@ -6,7 +6,7 @@ using UnityEngine;
 public class CreateSinWave : MonoBehaviour
 {
     public int WaveCount = 4;
-    public float RefreshReq = 5;
+    public float RefreshReq = 3;
     Material mat;
     private float currentPeak;
     private float currentDir;
@@ -64,13 +64,13 @@ public class CreateSinWave : MonoBehaviour
         {
             string wave = "Wave" + i;
             Dictionary<string, float> data = new Dictionary<string, float>();
-            float peak = Random.Range(0.3f, 0.5f);
+            float peak = Random.Range(0.3f, 0.4f);
             data.Add("peak", peak);
             float dir = Random.Range(0f, 1.0f);
             data.Add("dir", dir);
             float amp = Random.Range(10.0f, 12.0f);
             data.Add("amp", amp);
-            float speed = Random.Range(5f, 15f);
+            float speed = Random.Range(3f, 8f);
             data.Add("speed", speed);
             waveData.Add(wave, data);
         }
